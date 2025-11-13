@@ -95,18 +95,17 @@ Using your favorite graphing software (e.g., MS Excel or Google Sheets), plot th
 vs. N for each case. Take a screenshot of your graph and put them here by modifying this file, committing, and pushing 
 it to this repository.
 
-Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (already sorted):
-![image](https://github.com/user-attachments/assets/76f103c8-8c02-4bec-9966-99568f2effb6)
+Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (already sorted):![runtimeSorted.png](Images/runtimeSorted.png)
 
-Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (shuffled):
+Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (shuffled):![runtimeShuffled.png](Images/runtimeShuffled.png)
 
-Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (reversed):
+Bubble Sort, Merge Sort, Quick Sort, and Heap Sort running time (reversed):![runtimeReversed.png](Images/runtimeReversed.png)
 
-Bubble Sort and Odd-Even Transposition Sort comparison (already sorted):
+Bubble Sort and Odd-Even Transposition Sort comparison (already sorted):![NSorted.png](Images/NSorted.png)
 
-Bubble Sort and Odd-Even Transposition Sort comparison (shuffled):
+Bubble Sort and Odd-Even Transposition Sort comparison (shuffled):![NShuffled.png](Images/NShuffled.png)
 
-Bubble Sort and Odd-Even Transposition Sort comparison (reversed):
+Bubble Sort and Odd-Even Transposition Sort comparison (reversed):![NReversed.png](Images/NReversed.png)
 
 ## Submission:
 

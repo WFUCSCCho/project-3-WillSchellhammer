@@ -5,9 +5,11 @@
  * @date: November 12, 2025
  ************************************************************************/
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.channels.FileLockInterruptionException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -193,6 +195,11 @@ public class    Proj3 {
         FileOutputStream output;
         PrintWriter writer;
 
+        FileOutputStream analysis = new FileOutputStream("analysis.csv", true);
+        PrintWriter analysisWriter = new PrintWriter(analysis);
+        //only run this next line when creating a new analysis.csv file
+        //analysisWriter.println("sortingAlgorithm,numLines,runtimeSorted,runtimeShuffled,runtimeReversed,NSorted,NShuffled,NReversed");
+
         if (args.length != 3) {
             System.err.println("Usage: java Proj3 <input file> <sorting algorithm type> <number of lines>");
             System.exit(1);
@@ -206,69 +213,90 @@ public class    Proj3 {
 
         Collections.sort(steam_games);
 
-        output = new FileOutputStream("outputDesired.txt");
-        writer = new PrintWriter(output);
-        for (Game game : steam_games) {
-            writer.println(game);
-        }
-        writer.flush();
-        writer.close();
+        analysisWriter.print(sortingAlgorithm + "," + numLines);
+
+//        output = new FileOutputStream("outputDesired.txt");
+//        writer = new PrintWriter(output);
+//        for (Game game : steam_games) {
+//            writer.println(game);
+//        }
+//        writer.flush();
+//        writer.close();
 
         long start;
-        int N;
         long end;
 
         //Sorted (best case)
         start = System.nanoTime();
-        N = sort(steam_games, numLines, sortingAlgorithm);
+        int NSorted = sort(steam_games, numLines, sortingAlgorithm);
         end = System.nanoTime();
 
-        System.out.println("Sorted Runtime: " + (end-start)/1000000000.0 + " seconds");
-        if (N != -1) System.out.println("Number of iterations in parallel: " + N);
+        System.out.println("Sorted Runtime: " + (end - start) / 1000000000.0 + " seconds");
+        if (NSorted != -1) System.out.println("Number of iterations in parallel: " + NSorted);
 
-        output = new FileOutputStream("outputSorted.txt");
-        writer = new PrintWriter(output);
-        for (Game game : steam_games) {
-            writer.println(game);
-        }
-        writer.flush();
-        writer.close();
+        analysisWriter.print("," + (end - start) / 1000000000.0);
+
+//        output = new FileOutputStream("outputSorted.txt");
+//        writer = new PrintWriter(output);
+//        for (Game game : steam_games) {
+//            writer.println(game);
+//        }
+//        writer.flush();
+//        writer.close();
 
         //Shuffled (average case)
         Collections.shuffle(steam_games);
 
         start = System.nanoTime();
-        N = sort(steam_games, numLines, sortingAlgorithm);
+        int NShuffled = sort(steam_games, numLines, sortingAlgorithm);
         end = System.nanoTime();
 
-        System.out.println("Shuffled Runtime: " + (end-start)/1000000000.0 + " seconds");
-        if (N != -1) System.out.println("Number of iterations in parallel: " + N);
+        System.out.println("Shuffled Runtime: " + (end - start) / 1000000000.0 + " seconds");
+        if (NShuffled != -1) System.out.println("Number of iterations in parallel: " + NShuffled);
 
-        output = new FileOutputStream("outputShuffled.txt");
-        writer = new PrintWriter(output);
-        for (Game game : steam_games) {
-            writer.println(game);
-        }
-        writer.flush();
-        writer.close();
+        analysisWriter.print("," + (end - start) / 1000000000.0);
+
+//        output = new FileOutputStream("outputShuffled.txt");
+//        writer = new PrintWriter(output);
+//        for (Game game : steam_games) {
+//            writer.println(game);
+//        }
+//        writer.flush();
+//        writer.close();
 
         //Reversed (worst case)
         Collections.sort(steam_games, Collections.reverseOrder());
 
         start = System.nanoTime();
-        N = sort(steam_games, numLines, sortingAlgorithm);
+        int NReversed = sort(steam_games, numLines, sortingAlgorithm);
         end = System.nanoTime();
 
-        System.out.println("Reversed Runtime: " + (end-start)/1000000000.0 + " seconds");
-        if (N != -1) System.out.println("Number of iterations in parallel: " + N);
+        System.out.println("Reversed Runtime: " + (end - start) / 1000000000.0 + " seconds");
+        if (NReversed != -1) System.out.println("Number of iterations in parallel: " + NReversed);
 
-        output = new FileOutputStream("outputReversed.txt");
+        analysisWriter.print("," + (end - start) / 1000000000.0);
+
+//        output = new FileOutputStream("outputReversed.txt");
+//        writer = new PrintWriter(output);
+//        for (Game game : steam_games) {
+//            writer.println(game);
+//        }
+//        writer.flush();
+//        writer.close();
+
+        if (NSorted != -1) analysisWriter.print("," + NSorted + "," + NShuffled + "," + NReversed);
+        analysisWriter.println();
+
+        output = new FileOutputStream("sorted.txt");
         writer = new PrintWriter(output);
         for (Game game : steam_games) {
             writer.println(game);
         }
         writer.flush();
         writer.close();
+        analysisWriter.flush();
+        analysisWriter.close();
+        System.out.println("Sorted list saved to sorted.txt");
     }
 
     public static int sort(ArrayList<Game> steam_games, int numLines, String sortingAlgorithm) {
