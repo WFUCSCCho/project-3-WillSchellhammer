@@ -2,7 +2,7 @@
  * @file: Proj3.java
  * @description: Reads a dataset of steam games (path defined in args) and tests runtimes for different sorting operations with ArrayLists.
  * @author: Will S
- * @date: November 10, 2025
+ * @date: November 12, 2025
  ************************************************************************/
 
 import java.io.FileOutputStream;
@@ -24,8 +24,8 @@ public class    Proj3 {
     }
 
     public static <T extends Comparable> void merge(ArrayList<T> a, int left, int mid, int right) {
-        ArrayList<T> l = new ArrayList<>(a.subList(left, mid));
-        ArrayList<T> r = new ArrayList<>(a.subList(mid+1, right));
+        ArrayList<T> l = new ArrayList<>(a.subList(left, mid+1)); // left is inclusive, mid+1 is exclusive
+        ArrayList<T> r = new ArrayList<>(a.subList(mid+1, right+1)); //mid+1 is inclusive, right+1 is exclusive
         int i = 0;
         int j = 0;
         while (i < l.size() && j < r.size()) {
@@ -53,7 +53,41 @@ public class    Proj3 {
 
     // Quick Sort
     public static <T extends Comparable> void quickSort(ArrayList<T> a, int left, int right) {
-        // Finish Me
+        if (right-left <= 1) { //nothing to be sorted
+            return;
+        }
+
+        int middle = left + (right-left)/2; //make "middle" the median
+        if (a.get(left).compareTo(a.get(right)) > 0) {
+            swap (a, left, right);
+        }
+        if (a.get(left).compareTo(a.get(middle)) > 0) {
+            swap(a, left, middle);
+        }
+        if (a.get(middle).compareTo(a.get(right)) > 0) {
+            swap(a, middle, right);
+        }
+
+        swap(a, middle, right); //swap pivot with last element
+        int pivot = right;
+
+        int i = left; //i starts at first element
+        int j = right-1; //j starts at last element (not the pivot)
+        while (i<j) { //continuously swap i and j if i and j are both outside of their respective pivot ranges
+            while (a.get(i).compareTo(a.get(pivot)) < 0) {
+                i++;
+            }
+            while (a.get(j).compareTo(a.get(pivot)) > 0) {
+                j--;
+            }
+            if (i<j) {
+                swap(a, i, j);
+            }
+        }
+        swap(a, i, pivot);
+
+        quickSort(a, left, j);
+        quickSort(a, i, right);
     }
 
     public static <T extends Comparable> int partition (ArrayList<T> a, int left, int right) {
