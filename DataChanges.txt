@@ -1,0 +1,18 @@
+Downloaded from:
+https://www.kaggle.com/datasets/srgiomanhes/steam-games-dataset-2025
+
+Removed Columns:
+- publishers
+- categories
+- genres
+- required_age
+- platforms
+- is_released
+- additional_content
+- review_score_desc
+- positive_percentual
+- is_free
+
+Removed rows 64318, 64319, 64610, and 64611 due to incorrect formatting on those rows ("FantasyGrounds" game data)
+
+Deleted 550 instances of commas within cells in Excel (find "," and replace with "")
